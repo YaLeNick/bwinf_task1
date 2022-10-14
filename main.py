@@ -1,47 +1,47 @@
 with open("stoerung5.txt", "r") as example:   # Open txt file with example quote in reading mode
     pattern = example.readline().split()      # Read first line of example and split all words by spaces
-print(pattern)
 
-alice = open("alice", "r")  # Open "Alice im Wunderland" txt file
+alice = open("alice", "r")  # open "Alice im Wunderland" txt file
 
-characters = "!?_-/\\.,():»«*\"§$%&{}[]^°'#+*~;Â"   # String with all the special characters supposed to be removed
-wonderland = "".join(x for x in alice.read() if x not in characters)    # fill file with every character in book if they arent in the list above
-wonderland = wonderland.lower().split()     # Split all words in string by spaces and store every word in list
+characters = "!?_-/\\.,():»«*\"§$%&{}[]^°'#+*~;Â"
+wonderland = "".join(x for x in alice.read() if x not in characters)
+wonderland = wonderland.lower().split()
 
-alice.close()
+alice.close()   # close the file with "Alice im Wunderland"
 
-answers=[]
+answers=[]      # initialize list for all possible quotes
 
-for i in range(len(wonderland)):
+for i in range(len(wonderland)):    # loop for all words in wonderland
 
-    current=[]
-    s=''
+    current=[]  # initialize list for current possible quote
+    s=''        # initialize string later filled with quote
 
-    if wonderland[i] == pattern[0]:
-        for f in range(0, len(pattern)):
-            print(pattern[f])
+    if wonderland[i] == pattern[0]:     # if the current word matches the first word of the quote
+        for f in range(0, len(pattern)):    # loop for lenght of quote
 
+            # if current item in pattern is a spacefiller, skip to next loop
             if pattern[f] == "_":
                 continue
 
-            print(wonderland[i + f])
+            # if to check for equal words or just true if last word
             if wonderland[i+f] == pattern[f] or f == len(pattern):
-                current.append(wonderland[i + f])
-                print(current)
+                current.append(wonderland[i + f])   # fill current with possible words for quote
 
+            # if words don't fit, go to next place in wonderland and clear current
             else:
-                print("else")
                 current = []
                 break
 
+        # fill s with the fitting words to paste it in answers
         for t in range(len(pattern)):
             s += wonderland[i+t]+" "
 
+        # put pattern in a list leaving the space fillers
         shortlist = [item for item in pattern if item != '_']
 
+        # if current fits the quote pattern & the lenghts are right
         if current == shortlist:
-            print(s)
             if len(s.split()) == len(pattern):
-                answers.append(s.strip())
+                answers.append(s.strip())       # fill list answers with the right quotes
 
-print(answers)
+print(answers)  # print out all answers in a list
