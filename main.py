@@ -1,47 +1,54 @@
-with open("stoerung5.txt", "r") as example:   # Open txt file with example quote in reading mode
-    pattern = example.readline().split()      # Read first line of example and split all words by spaces
+# Program for the first task of BWINF 41, Round 1 - Task 1
+# Your task is to find possible matches in a large text file for a given pattern
 
-alice = open("alice", "r")  # open "Alice im Wunderland" txt file
+# Opening the text file containing the pattern and splitting the line into a list, seperating by spaces
+with open("stoerung0.txt", "r") as example:
+    pattern =example.readline().split()
 
-characters = "!?_-/\\.,():»«*\"§$%&{}[]^°'#+*~;Â"
-wonderland = "".join(x for x in alice.read() if x not in characters)
-wonderland = wonderland.lower().split()
+# --------------------------------------------------------------
+# Opening the story text file, removing special characters and converting everything to small letters
+alice =open("alice", "r")
 
-alice.close()   # close the file with "Alice im Wunderland"
+characters ="!?_-/\\.,():»«*\"§$%&{}[]^°'#+*~;Â"
+wonderland ="".join(x for x in alice.read() if x not in characters)
+wonderland =wonderland.lower().split()
 
-answers=[]      # initialize list for all possible quotes
+alice.close()
+# --------------------------------------------------------------
 
-for i in range(len(wonderland)):    # loop for all words in wonderland
+answers = []
 
-    current=[]  # initialize list for current possible quote
-    s=''        # initialize string later filled with quote
+# Going through every word in the text file, initialising temporary variables and checking if the
+# word matchers with the first word of the given pattern.
+for i in range(len(wonderland)):
 
-    if wonderland[i] == pattern[0]:     # if the current word matches the first word of the quote
-        for f in range(0, len(pattern)):    # loop for lenght of quote
+    current =[]
+    s =''
 
-            # if current item in pattern is a spacefiller, skip to next loop
-            if pattern[f] == "_":
-                continue
+    if wonderland[i] == pattern[0]:
 
-            # if to check for equal words or just true if last word
-            if wonderland[i+f] == pattern[f] or f == len(pattern):
-                current.append(wonderland[i + f])   # fill current with possible words for quote
+        # If the first word matches the program checks all the words for the lenght of the quote pattern,
+        # skipping the space filler, appending fitting words to the current list and stopping the loop
+        # if it recognizes that the pattern will not fit.
+        for f in range(0, len(pattern)):
 
-            # if words don't fit, go to next place in wonderland and clear current
-            else:
-                current = []
-                break
+            if pattern[f] == "_": continue
 
-        # fill s with the fitting words to paste it in answers
+            if wonderland[i+f] == pattern[f] or f == len(pattern): current.append(wonderland[i + f])
+
+            else: break
+
+        # Fill string with the fitting words to paste it in answers
         for t in range(len(pattern)):
-            s += wonderland[i+t]+" "
+            s +=wonderland[i+t]+" "
 
         # put pattern in a list leaving the space fillers
-        shortlist = [item for item in pattern if item != '_']
+        shortlist =[item for item in pattern if item != '_']
 
-        # if current fits the quote pattern & the lenghts are right
+        # If current fits the quote pattern & the lenghts are right, the possible solution
+        # are added to the list of correct answers.
         if current == shortlist:
             if len(s.split()) == len(pattern):
-                answers.append(s.strip())       # fill list answers with the right quotes
+                answers.append(s.strip())
 
-print(answers)  # print out all answers in a list
+print(answers)  # Print out all answers in a list
